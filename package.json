@@ -1,0 +1,20 @@
+{
+  "name": "vercel-file-upload",
+  "version": "1.0.0",
+  "description": "A Vercel API for uploading files",
+  "main": "api/upload.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev",
+    "deploy": "vercel"
+  },
+  "dependencies": {
+    "formidable": "^2.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^3.0.0"
+  },
+  "engines": {
+    "node": "16.x"
+  }
+}
