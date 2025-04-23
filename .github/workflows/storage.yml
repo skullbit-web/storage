@@ -1,0 +1,36 @@
+name: GitHub Storage Handler
+
+on:
+  workflow_dispatch:
+    inputs:
+      file_path:
+        description: 'Path to file to compress and store'
+        required: true
+
+jobs:
+  store:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install zstandard
+
+      - name: Compress file
+        id: compress
+        run: |
+          python scripts/compress.py "${{ github.event.inputs.file_path }}" .storage
+
+      - name: Commit and push to storage
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add .storage
+          git commit -m "Add compressed file ${{ steps.compress.outputs.hash }}"
+          git push
